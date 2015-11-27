@@ -29,5 +29,18 @@ namespace Average.UnitTest
             //assert
             Assert.Equal(result, 3);          
         }
+
+        [Fact]
+        public void ShouldBeReturnAverageGeometric()
+        {
+            //arrange
+            var numbers = new int[] {3, 3, 3};
+
+            //act
+            var result = calculation.GetAverageGeometric(numbers);
+
+            //assert
+            Assert.Equal(result, 3);
+        }
     }
 }
