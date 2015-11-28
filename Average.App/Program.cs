@@ -6,6 +6,9 @@ namespace Average.App
 {
     internal class Program
     {
+        private const string averageArithmetricCommand = "-am";
+        private const string averageGeometricCommand = "-gm";
+
         private static void Main(string[] args)
         {
             try
@@ -62,9 +65,13 @@ namespace Average.App
                 case Message.Help:
                     text += "Пожалуйста, вызовите программу с одним из следующих аргументов \n";
                     text +=
-                        "-am <список чисел> - вычисляет среднее арифметические для списка чисел. Разрешаются только положительные числа. Например, -am 1 2 3 4 5 \n";
+                        averageArithmetricCommand
+                        + " <список чисел> - вычисляет среднее арифметические для списка чисел. Разрешаются только положительные числа. Например, "
+                        + averageArithmetricCommand + " 1 2 3 4 5 \n";
                     text +=
-                        "-gm <список чисел> - вычисляет среднее геометрическое для списка чисел. Разрешаются только положительные числа. Например, -gm 3 3 3";
+                        averageGeometricCommand
+                        + " <список чисел> - вычисляет среднее геометрическое для списка чисел. Разрешаются только положительные числа. Например, "
+                        + averageGeometricCommand + " 3 3 3";
                     break;
                 case Message.ErrorArgs:
                     text += "Вы ввели неправильные аргументы.";
@@ -75,7 +82,7 @@ namespace Average.App
 
         public static bool IsNumbers(IEnumerable<string> args)
         {
-            if (!args.Any())
+            if (args.Any())
             {
                 return false;
             }
@@ -93,15 +100,15 @@ namespace Average.App
             {
                 switch (args[0])
                 {
-                    case "-am":
+                    case averageArithmetricCommand:
                         command = Command.Arith;
                         break;
-                    case "-gm":
+                    case averageGeometricCommand:
                         command = Command.Geo;
                         break;
                 }
             }
-        
+
             return command;
         }
 
