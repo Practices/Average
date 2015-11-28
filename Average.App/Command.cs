@@ -4,6 +4,6 @@ namespace Average.App
     {
         Arith,
         Geo,
-        No
+        Help
     }
 }
