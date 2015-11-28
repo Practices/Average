@@ -10,39 +10,36 @@ namespace Average.App
         {
             try
             {
-                if (args.Length > 0)
+                Command command = GetCommand(args);
+
+                if (command != Command.Help)
                 {
-                    Command command = GetCommand(args[0]);
+                    IEnumerable<string> paramList = args.Skip(1);
 
-                    if (command != Command.No)
+                    if (IsNumbers(paramList))
                     {
-                        IEnumerable<string> paramList = args.Skip(1);
+                        IEnumerable<int> numbers = GetNumbers(paramList);
 
-                        if (IsNumbers(paramList))
+                        Calculation calculation = new Calculation();
+
+                        double result = 0;
+
+                        switch (command)
                         {
-                            IEnumerable<int> numbers = GetNumbers(paramList);
-
-                            Calculation calculation = new Calculation();
-
-                            double result = 0;
-
-                            switch (command)
-                            {
-                                case Command.Arith:
-                                    result = calculation.GetAverageArithmetric(numbers.ToArray());
-                                    break;
-                                case Command.Geo:
-                                    result = calculation.GetAverageGeometric(numbers.ToArray());
-                                    break;
-                            }
-
-                            Console.WriteLine(result);
+                            case Command.Arith:
+                                result = calculation.GetAverageArithmetric(numbers.ToArray());
+                                break;
+                            case Command.Geo:
+                                result = calculation.GetAverageGeometric(numbers.ToArray());
+                                break;
                         }
-                        else
-                        {
-                            Console.WriteLine(BuildMessage(Message.ErrorArgs));
-                            Console.WriteLine(BuildMessage(Message.Help));
-                        }
+
+                        Console.WriteLine(result);
+                    }
+                    else
+                    {
+                        Console.WriteLine(BuildMessage(Message.ErrorArgs));
+                        Console.WriteLine(BuildMessage(Message.Help));
                     }
                 }
                 else
@@ -88,23 +85,23 @@ namespace Average.App
             return strConcat.All(char.IsDigit);
         }
 
-        public static Command GetCommand(string cmd)
+        public static Command GetCommand(string[] args)
         {
-            Command command;
+            Command command = Command.Help;
 
-            switch (cmd)
+            if (args.Length > 0)
             {
-                case "-am":
-                    command = Command.Arith;
-                    break;
-                case "-gm":
-                    command = Command.Geo;
-                    break;
-                default:
-                    command = Command.No;
-                    break;
+                switch (args[0])
+                {
+                    case "-am":
+                        command = Command.Arith;
+                        break;
+                    case "-gm":
+                        command = Command.Geo;
+                        break;
+                }
             }
-
+        
             return command;
         }
 
