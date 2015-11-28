@@ -82,14 +82,20 @@ namespace Average.App
 
         public static bool IsNumbers(IEnumerable<string> args)
         {
+            bool isNumbers;
+
             if (args.Any())
             {
-                return false;
+                string strConcat = string.Concat(args);
+
+                isNumbers = strConcat.All(char.IsDigit);
+            }
+            else
+            {
+                isNumbers = false;
             }
 
-            string strConcat = string.Concat(args);
-
-            return strConcat.All(char.IsDigit);
+            return isNumbers;
         }
 
         public static Command GetCommand(string[] args)
